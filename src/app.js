@@ -1,5 +1,9 @@
 import express from 'express';
 
+import productController from './controllers/groupController.js';
+import postController from './controllers/postController.js';
+
+
 const app = express();
 app.use(express.json());
 
