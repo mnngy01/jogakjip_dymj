@@ -1,10 +1,10 @@
-// Front-End
+// Front-End import 
 import React from 'react';
 
 import GroupForm from './components/GroupForm';
 import Layout from './components/Layout';  // Layout 컴포넌트를 import
 
-// Back-End
+// Back-End import 
 import express from 'express';
 
 import groupController from './controllers/groupController.js';
