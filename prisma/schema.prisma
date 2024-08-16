@@ -12,3 +12,34 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Group {
+  id            Int      @id @default(autoincrement())
+  name          String
+  imageUrl      String
+  isPublic      Boolean
+  likeCount     Int      @default(0)
+  badgeCount    Int      @default(0)  // badgeCount 추가
+  postCount     Int      @default(0)
+  createdAt     DateTime @default(now())
+  introduction  String
+  badges        Badge[]  // Group과 Badge 간의 관계 정의
+}
+
+model Badge {
+  id        Int      @id @default(autoincrement())
+  type      BadgeType
+  name      String
+  imageUrl  String
+  groupId   Int
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+enum BadgeType {
+  WEEK_JOGAK
+  TWENTY_MEMORIES
+  GROUP_ONE_ANNYVERSARY
+  GROUP_LIKE_TEN_THOUSANDS
+  MEMORY_LIKE_TEN_THOUSANDS
+}
