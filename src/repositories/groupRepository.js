@@ -20,9 +20,55 @@ async function save(group) {
 
 
 // 그룹 목록 조회하기
+async function getGroups(filters) {
+  const { skip, take, sortBy, keyword, isPublic } = filters;
 
+  // keyword
+  let whereClause = {};
+  if (keyword) {
+    whereClause.name = {
+      contains: keyword,
+      mode: 'insensitive'
+    };
+  }
+
+  // isPublic
+  if (isPublic !== undefined) {
+    whereClause.isPublic = isPublic;
+  }
+
+  // sortBy
+  let orderByClause = () => {
+    switch (sortBy) {
+      case "mostPosted":
+        return { postCount : 'desc' };
+        break;
+      case "mostLiked":
+        return { likeCount : 'desc' };
+        break;
+      case "mostBadge":
+        return { badgeCount : 'desc' };
+        break;
+      case "latest":
+      default:
+        return { createdAt : 'desc' };
+        break;
+    }
+  }
+
+  const totalItemCount = await prisma.group.count({ where: whereClause });
+  const groups = await prisma.group.fineMany({
+    where: whereClause,
+    orderBy: orderByClause,
+    skip: skip,
+    take: take
+  });
+
+  return { groups, totalItemCount };
+}
 
 
 export default {
   save,
+  getGroups,
 }

@@ -19,7 +19,7 @@ async function getGroups({ page, pageSize, sortBy, keyword, isPublic }) {
     isPublic: isPublic === undefined ? undefined : isPublic === true
   };
 
-  const { goups, totalItemCount } = await groupRepository.getGroups(filters);
+  const { groups, totalItemCount } = await groupRepository.getGroups(filters);
   const totalPages = Math.ceil(totalItemCount / pageSize);
 
   return {

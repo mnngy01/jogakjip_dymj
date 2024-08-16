@@ -32,44 +32,35 @@ groupController.get('/', async (req, res, next) => {
   */
 
   
-  const result = await groupService.getGroups({
-    page: Number(req.query.page),
-    pageSize: Number(req.query.pageSize),
-    sortBy: req.query.sortBy,
-    keyword: req.query.keyword,
-    isPublic: Boolean(req.query.isPublic)
-  });
+  try {
+      const result = await groupService.getGroups({
+      page: Number(req.query.page),
+      pageSize: Number(req.query.pageSize),
+      sortBy: req.query.sortBy,
+      keyword: req.query.keyword,
+      isPublic: Boolean(req.query.isPublic)
+    });
 
-
-  // sortBy : 정렬 방식
-  const compareFn = () => {
-    switch (sortBy) {
-      case "latest":
-        return (a, b) => b.createdAt - a.createdAt;
-        break;
-      case "mostPosted":
-        return (a, b) => b.postCount - a.postCount;
-        break;
-      case "mostLiked":
-        return (a, b) => b.likeCount - a.likeCount;
-        break;
-      case "mostBadge":
-        return (a, b) => b.badgeCount - a.badgeCount;
-        break;
-    }
+    res.status(200).json({
+      currentPage: result.currentPage,
+      totalPages: result.totalPages,
+      totalItemCount: result.totalItemCount,
+      data: result.groups.map(group => ({
+          id: group.id,
+          name: group.name,
+          imageUrl: group.imageUrl,
+          isPublic: group.isPublic,
+          likeCount: group.likeCount,
+          badgeCount: group.badgeCount,
+          postCount: group.postCount,
+          createdAt: group.createdAt.toISOString(),
+          introduction: group.introduction
+      }))
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
   }
-
-  // 정렬
-  let newTasks = tasks.sort(compareFn);
-  // keyword 검색어
-  // isPublic 공개여부
-  // page, pageSize만큼 잘라내기
-  if (pageSize) {
-    newTasks = newTasks.slice(page, page + pageSize);
-  }
-
-
-  res.send(newTasks);
 });
 
 
