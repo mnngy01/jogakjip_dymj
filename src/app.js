@@ -34,10 +34,12 @@ app.use('/groups', groupController);
 app.use('/posts', postController);
 
 
-const port = process.env.PORT ?? 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// const port = process.env.PORT ?? 3000;
+//app.listen(port, () => {
+//  console.log(`Server is running on port ${port}`);
+//});
+app.listen(3000, () => console.log('Server Started'));
+
 
 
 // ***************************************************************

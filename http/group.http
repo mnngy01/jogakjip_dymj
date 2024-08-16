@@ -1,0 +1,6 @@
+POST http://localhost:3000/groups
+
+###
+
+GET http://localhost:3000/groups?page=1&pageSize=10&sortBy=latest&isPublic=1
+
