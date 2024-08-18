@@ -103,4 +103,4 @@ groupController.delete('/:groupId', async (req, res) => {
 
 });
 
-export default productController;
+export default groupController;
