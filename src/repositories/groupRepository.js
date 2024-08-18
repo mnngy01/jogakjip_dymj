@@ -16,7 +16,7 @@ async function save(group) {
       introduction: group.introduction,
     },
   });
-}
+};
 
 
 // 그룹 목록 조회하기
@@ -65,7 +65,7 @@ async function getGroups(filters) {
   });
 
   return { groups, totalItemCount };
-}
+};
 
 
 // id로 그룹 찾기
@@ -75,16 +75,24 @@ async function getById(groupId) {
       id: parseInt(groupId)
     },
   });
-}
+};
 
 
 // 그룹 수정하기(update)
 async function update(groupId, updateData) {
   return await prisma.group.update({
-    where: {id: groupId },
+    where: { id: groupId },
     data: updateData,
   });
-}
+};
+
+
+// id로 그룹 삭제하기
+async function deleteGroupById(groupId) {
+  await prisma.group.delete({
+    where: { id: group },
+  });
+};
 
 
 export default {
@@ -92,4 +100,5 @@ export default {
   getGroups,
   getById,
   update,
+  deleteGroupById,
 }

@@ -75,6 +75,32 @@ groupController.put('/:groupId', async (req, res) => {
     }
   }
   
-})
+});
+
+
+// 그룹 삭제하기
+groupController.delete('/:groupId', async (req, res) => {
+  const { groupId } = req.params;
+  const { password } = req.body;
+
+  // 비밀번호 미입력시
+  if (!password) {
+    return res.status(400).json({ message: "잘못된 요청입니다" });
+  }
+
+  try {
+    const result = await groupService.deleteGroup(parseInt(groupId, 10), password);
+    res.status(200).json(result);
+  } catch (error) {
+    if (error.status === 403) {
+      res.status(403).json({ message: error.message });
+    } else if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+
+});
 
 export default productController;

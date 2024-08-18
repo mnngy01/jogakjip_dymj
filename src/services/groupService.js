@@ -65,8 +65,30 @@ async function update(groupId, updateData) {
 
 };
 
+
+// 그룹 삭제하기
+async function deleteGroup(groupId, password) {
+  const group = await groupRepository.getById(groupId);
+
+  // 그룹이 존재하지 않는다면
+  if (!group) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호 검증
+  if (group.password !== password) {
+    throw { status: 403, message: "비밀번호가 틀렸습니다" };
+  }
+
+  // 그룹 삭제
+  await groupRepository.deleteGroupById(groupId);
+
+  return { message: "그룹 삭제 성공" };
+}
+
 export default {
   create,
   getGroups,
   update,
+  deleteGroup,
 }
