@@ -68,7 +68,28 @@ async function getGroups(filters) {
 }
 
 
+// id로 그룹 찾기
+async function getById(groupId) {
+  return await prisma.group.findUnique({
+    where: {
+      id: parseInt(groupId)
+    },
+  });
+}
+
+
+// 그룹 수정하기(update)
+async function update(groupId, updateData) {
+  return await prisma.group.update({
+    where: {id: groupId },
+    data: updateData,
+  });
+}
+
+
 export default {
   save,
   getGroups,
+  getById,
+  update,
 }

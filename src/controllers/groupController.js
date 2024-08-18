@@ -13,6 +13,7 @@ groupController.post('/', async (req, res, next) => {
   return res.json(createGroup);
 });
 
+
 // 그룹 목록 조회하기
 groupController.get('/', async (req, res, next) => {
   /**
@@ -23,14 +24,6 @@ groupController.get('/', async (req, res, next) => {
    * - keyword : string (검색어)
    * - isPublic : boolean (공개 / 비공개 여부)
    */
-  /*
-  const page = Number(req.query.page);
-  const pageSize = Number(req.query.pageSize);
-  const sortBy = req.query.sortBy;
-  const keyword = req.query.keyword;
-  const isPublic = Boolean(req.query.isPublic);
-  */
-
   
   try {
       const result = await groupService.getGroups({
@@ -63,5 +56,25 @@ groupController.get('/', async (req, res, next) => {
   }
 });
 
+
+// 그룹 수정하기
+groupController.put('/:groupId', async (req, res) => {
+  const { groupId } = req.params;
+  const updateData = req.body;
+
+  try {
+    const updateGroup = await groupService.update(parseInt(groupId, 10), updateData);
+    return res.status(200).json(updateGroup);
+  } catch (error) {
+    if (error.status === 403) {
+      req.status(403).json({ message: "비밀번호가 틀렸습니다" });
+    } else if (error.status === 404) {
+      req.status(404).json({ message: "존재하지 않습니다" });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+  
+})
 
 export default productController;

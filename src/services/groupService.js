@@ -31,7 +31,42 @@ async function getGroups({ page, pageSize, sortBy, keyword, isPublic }) {
 
 };
 
+
+// 그룹 수정하기
+async function update(groupId, updateData) {
+  
+ const group = await groupRepository.getById(groupId);
+
+  // 그룹이 존재하지 않다면
+  if (!group) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호가 틀렸다면
+  if (group.password !== updateData.password) {
+    throw { status: 403, message: "비밀번호가 틀렸습니다" };
+  }
+
+  // 비밀번호를 제외한 나머지 필드 업데이트
+  const { password, ...dataToUpdate } = updateData;
+  const updatedGroup = await groupRepository.update(groupId, dataToUpdate);
+
+  return {
+    id: updatedGroup.id,
+    name: updatedGroup.name,
+    imageUrl: updatedGroup.imageUrl,
+    isPublic: updatedGroup.isPublic,
+    likeCount: updatedGroup.likeCount,
+    badges: updatedGroup.badges.map(badge => badge.name),
+    postCount: updatedGroup.postCount,
+    createdAt: updatedGroup.createdAt,
+    introduction: updatedGroup.introduction
+  };
+
+};
+
 export default {
   create,
   getGroups,
+  update,
 }

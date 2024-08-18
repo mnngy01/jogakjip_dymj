@@ -16,6 +16,7 @@ datasource db {
 model Group {
   id            Int      @id @default(autoincrement())
   name          String
+  password      String
   imageUrl      String
   isPublic      Boolean
   likeCount     Int      @default(0)
@@ -23,7 +24,41 @@ model Group {
   postCount     Int      @default(0)
   createdAt     DateTime @default(now())
   introduction  String
+
   badges        Badge[]  // Group과 Badge 간의 관계 정의
+  posts         Post[]
+}
+
+model Post {
+  id          Int @id @default(autoincrement())
+  groupId     Int
+  nickname    String
+  title       String
+  content     String
+  imageUrl    String
+  location    String
+  moment      DateTime
+  isPublic    Boolean @default(true)
+  password    String
+  createdAt   DateTime  @default(now())
+  likeCount   Int @default(0)
+  commentCount  Int @default(0)
+  tags        String
+
+  group       Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  comments    Comment[] 
+}
+
+model Comment {
+  id        Int   @id @default(autoincrement())
+  postId    Int
+  nickname  String
+  content   String
+  password  String
+  createdAt DateTime  @default(now())
+
+  post      Post  @relation(fields: [postId], references: [id], onDelete: Cascade)
+
 }
 
 model Badge {
@@ -32,9 +67,11 @@ model Badge {
   name      String
   imageUrl  String
   groupId   Int
-  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
 }
+
 
 enum BadgeType {
   WEEK_JOGAK
