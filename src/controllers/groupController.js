@@ -103,4 +103,26 @@ groupController.delete('/:groupId', async (req, res) => {
 
 });
 
+
+// 그룹 상세 정보 조회
+groupController.get('/:groupId', async (req, res) => {
+  const { groupId } = req.params;
+
+  if (isNaN(groupId)) {
+    return res.status(400).json({ message: "잘못된 요청입니다" });
+  }
+
+  try {
+    const groupDetails = await groupService.getGroupDetails(paseInt(groupId, 10));
+    res.status(200).json(groupDetails);
+  } catch (error) {
+    if (error.status === 404 ) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+  
+});
+
 export default groupController;

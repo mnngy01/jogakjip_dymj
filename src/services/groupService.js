@@ -7,6 +7,7 @@ async function create (group) {
   return await groupRepository.save(group);
 }
 
+
 // 그룹 목록 조회하기
 async function getGroups({ page, pageSize, sortBy, keyword, isPublic }) {
   const skip = (page - 1) * pageSize;
@@ -35,7 +36,7 @@ async function getGroups({ page, pageSize, sortBy, keyword, isPublic }) {
 // 그룹 수정하기
 async function update(groupId, updateData) {
   
- const group = await groupRepository.getById(groupId);
+ const group = await groupRepository.getGroupById(groupId);
 
   // 그룹이 존재하지 않다면
   if (!group) {
@@ -68,7 +69,7 @@ async function update(groupId, updateData) {
 
 // 그룹 삭제하기
 async function deleteGroup(groupId, password) {
-  const group = await groupRepository.getById(groupId);
+  const group = await groupRepository.getGroupById(groupId);
 
   // 그룹이 존재하지 않는다면
   if (!group) {
@@ -86,9 +87,33 @@ async function deleteGroup(groupId, password) {
   return { message: "그룹 삭제 성공" };
 }
 
+
+// 그룹 상세 정보 조회하기
+async function getGroupDetails(groupId) {
+  const group = await groupRepository.getGroupById(groupId);
+
+  if (!group) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  return {
+    id: group.id,
+    name: group.name,
+    imageUrl: group.imageUrl,
+    isPublic: group.isPublic,
+    likeCount: group.likeCount,
+    badges: group.badges.map(badge => badge.name),
+    postCount: group.postCount,
+    createdAt: group.createdAt,
+    introduction: group.introduction,
+  };
+
+};
+
 export default {
   create,
   getGroups,
   update,
   deleteGroup,
+  getGroupDetails,
 }

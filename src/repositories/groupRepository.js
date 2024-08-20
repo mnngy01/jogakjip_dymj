@@ -69,10 +69,11 @@ async function getGroups(filters) {
 
 
 // id로 그룹 찾기
-async function getById(groupId) {
+async function getGroupById(groupId) {
   return await prisma.group.findUnique({
-    where: {
-      id: parseInt(groupId)
+    where: { id: parseInt(groupId) },
+    include: {
+      badges: true, // 뱃지 목록 포함
     },
   });
 };
@@ -98,7 +99,7 @@ async function deleteGroupById(groupId) {
 export default {
   save,
   getGroups,
-  getById,
+  getGroupById,
   update,
   deleteGroupById,
 }
