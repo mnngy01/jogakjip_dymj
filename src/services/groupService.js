@@ -1,6 +1,6 @@
 // groupService.js
 // 비즈니스 로직
-import groupRepository from "../repository/groupRepository.js";
+import groupRepository from "../repositories/groupRepository.js";
 
 // 그룹 등록하기
 async function create (group) {
@@ -110,10 +110,29 @@ async function getGroupDetails(groupId) {
 
 };
 
+
+// 그룹 조회 권한 확인하기
+async function verifyGroupPassword(groupId, password) {
+  const group = await groupRepository.getGroupById(groupId);
+
+  // 그룹이 없다면
+  if (!group) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호 검증
+  if (group.password !== password) {
+    throw { status: 401, message: "비밀번호가 틀렸습니다" };
+  }
+
+  return { message: "비밀번호가 확인되었습니다" };
+}
+
 export default {
   create,
   getGroups,
   update,
   deleteGroup,
   getGroupDetails,
+  verifyGroupPassword,
 }
