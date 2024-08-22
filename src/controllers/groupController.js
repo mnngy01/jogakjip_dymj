@@ -146,4 +146,22 @@ groupController.post('/:groupId/verify-password', async (req, res) => {
 
 });
 
+
+// 그룹 공감하기
+groupController.post('/:groupId/like', async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const result = await groupService.likeGroup(parseInt(groupId, 10));
+    res.status(200).json(result);
+  } catch (error) {
+    if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+
+});
+
 export default groupController;

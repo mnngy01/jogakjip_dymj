@@ -96,10 +96,21 @@ async function deleteGroupById(groupId) {
 };
 
 
+// 그룹 공감하기 -> likeCount 증가
+async function incrementGroupLikeCount(groupId) {
+  return await prisma.group.update({
+    where: { id: groupId },
+    data: {
+      likeCount: { increment: 1, }
+    },
+  });
+};
+
 export default {
   save,
   getGroups,
   getGroupById,
   update,
   deleteGroupById,
+  incrementGroupLikeCount,
 }

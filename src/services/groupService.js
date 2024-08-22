@@ -126,7 +126,22 @@ async function verifyGroupPassword(groupId, password) {
   }
 
   return { message: "비밀번호가 확인되었습니다" };
-}
+};
+
+
+// 그룹 공감하기
+async function likeGroup(groupId) {
+  const group = await groupRepository.getGroupById(groupId);
+
+  // 그룹이 없다면
+  if (!group) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  await groupRepository.incrementGroupLikeCount(groupId);
+
+  return { message: "그룹 공감하기 성공" };
+};
 
 export default {
   create,
@@ -135,4 +150,5 @@ export default {
   deleteGroup,
   getGroupDetails,
   verifyGroupPassword,
+  likeGroup,
 }
