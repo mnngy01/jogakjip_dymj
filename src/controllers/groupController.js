@@ -164,4 +164,21 @@ groupController.post('/:groupId/like', async (req, res) => {
 
 });
 
+
+// 그룹 공개여부 확인
+groupController.get('/:groupId/is-public', async (req, res) => {
+  const { groupId } = req.params;
+
+  try {
+    const groupVisibility = await groupService.checkGroupVisibility(parseInt(groupId, 10));
+    res.status(200).json(groupVisibility);
+  } catch (error) {
+    if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+});
+
 export default groupController;

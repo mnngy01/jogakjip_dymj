@@ -106,6 +106,18 @@ async function incrementGroupLikeCount(groupId) {
   });
 };
 
+
+// 그룹 공개 여부 확인
+async function getGroupVisibilityById(groupId) {
+  return await prisma.group.findUnique({
+    where: { id: groupId },
+    select: {
+      id: true,
+      isPublic: true, // id와 공개 여부만 조회
+    },
+  });
+};
+
 export default {
   save,
   getGroups,
@@ -113,4 +125,5 @@ export default {
   update,
   deleteGroupById,
   incrementGroupLikeCount,
+  getGroupVisibilityById,
 }

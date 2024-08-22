@@ -143,6 +143,23 @@ async function likeGroup(groupId) {
   return { message: "그룹 공감하기 성공" };
 };
 
+
+// 그릅 공개 여부 확인
+async function checkGroupVisibility(groupId) {
+  const group = await groupRepository.getGroupVisibilityById(groupId);
+
+  // 그룹이 없으면
+  if (!group) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  return {
+    id: group.id,
+    isPublic: group.isPublic,
+  };
+  
+};
+
 export default {
   create,
   getGroups,
@@ -151,4 +168,5 @@ export default {
   getGroupDetails,
   verifyGroupPassword,
   likeGroup,
+  checkGroupVisibility,
 }
