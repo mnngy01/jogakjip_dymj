@@ -23,6 +23,29 @@ const createPost = async (req, res) => {
   }
 };
 
+
+// 게시글 목록 조회
+const getPosts = async (req, res) => {
+  const { groupId } = req.params;
+  const { page = 1, pateSize = 10, sortBy = 'latest', keyword, ispublic } = req.query;
+
+  try {
+    const result = await postService.getPosts({
+      groupId: parseInt(groupId, 10),
+      pate: parseInt(pate, 10),
+      pageSize: parseInt(pageSize, 10),
+      sortBy,
+      keyword,
+      isPublic: isPublic === 'true' // 문자열을 boolean으로 변환?
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ message: "잘못된 요청입니다" });
+  }
+};
+
 export default {
   createPost,
+  getPosts,
 }

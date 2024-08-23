@@ -27,6 +27,29 @@ async function createPost (groupId, postData) {
 };
 
 
+// 게시글 목록 조회
+async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) {
+  const { posts, totalItemCount } = await postRepository.findPosts({
+    groupId,
+    page,
+    pageSize,
+    sortBy,
+    keyword,
+    isPublic,
+  });
+
+  const totalPages = Math.ceil(totalItemCount / pageSize);
+
+  return {
+    currentPage: page,
+    totalPages,
+    totalItemCount,
+    data: posts
+  };
+};
+
+
 export default {
   createPost,
+  getPosts,
 }

@@ -18,6 +18,7 @@ router.get('/api/groups/:groupId/is-public', groupController.checkGroupVisibilit
 
 // post
 router.post('/api/groups/:groupId/posts', postController.createPost); // 게시글 등록
+router.get('/api/groups/:groupId/posts', postController.getPosts);    // 게시글 목록 조회
 
 
 
