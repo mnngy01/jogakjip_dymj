@@ -8,14 +8,14 @@ const groupController = express.Router();
 
 
 // 그룹 등록하기
-groupController.post('/', async (req, res, next) => {
+const createGroup = async (req, res, next) => {
   const createGroup = await groupService.create(req.body);
   return res.json(createGroup);
-});
+};
 
 
 // 그룹 목록 조회하기
-groupController.get('/', async (req, res, next) => {
+const getGroups = async (req, res, next) => {
   /**
    * 쿼리 파라미터
    * - page : number (현재 페이지 번호)
@@ -54,11 +54,11 @@ groupController.get('/', async (req, res, next) => {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
   }
-});
+};
 
 
 // 그룹 수정하기
-groupController.put('/:groupId', async (req, res) => {
+const updateGroup = async (req, res) => {
   const { groupId } = req.params;
   const updateData = req.body;
 
@@ -75,11 +75,11 @@ groupController.put('/:groupId', async (req, res) => {
     }
   }
   
-});
+};
 
 
 // 그룹 삭제하기
-groupController.delete('/:groupId', async (req, res) => {
+const deleteGroup = async (req, res) => {
   const { groupId } = req.params;
   const { password } = req.body;
 
@@ -101,11 +101,11 @@ groupController.delete('/:groupId', async (req, res) => {
     }
   }
 
-});
+};
 
 
 // 그룹 상세 정보 조회
-groupController.get('/:groupId', async (req, res) => {
+const getGroupDatail = async (req, res) => {
   const { groupId } = req.params;
 
   if (isNaN(groupId)) {
@@ -123,11 +123,11 @@ groupController.get('/:groupId', async (req, res) => {
     }
   }
 
-});
+};
 
 
 // 그룹 조회 권한 확인하기
-groupController.post('/:groupId/verify-password', async (req, res) => {
+const verifyGroupPassword = async (req, res) => {
   const { groupId } = req.params;
   const { password } = req.body;
 
@@ -144,11 +144,11 @@ groupController.post('/:groupId/verify-password', async (req, res) => {
     }
   }
 
-});
+};
 
 
 // 그룹 공감하기
-groupController.post('/:groupId/like', async (req, res) => {
+const likeGroup = async (req, res) => {
   const { groupId } = req.params;
 
   try {
@@ -162,11 +162,11 @@ groupController.post('/:groupId/like', async (req, res) => {
     }
   }
 
-});
+};
 
 
 // 그룹 공개여부 확인
-groupController.get('/:groupId/is-public', async (req, res) => {
+const checkGroupVisibility = async (req, res) => {
   const { groupId } = req.params;
 
   try {
@@ -179,6 +179,15 @@ groupController.get('/:groupId/is-public', async (req, res) => {
       res.status(400).json({ message: "잘못된 요청입니다" });
     }
   }
-});
+};
 
-export default groupController;
+export default {
+  createGroup,
+  getGroups,
+  updateGroup,
+  deleteGroup,
+  getGroupDatail,
+  verifyGroupPassword,
+  likeGroup,
+  checkGroupVisibility,
+}

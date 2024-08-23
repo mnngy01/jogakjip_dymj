@@ -3,11 +3,9 @@
 import express from 'express';
 import postService from '../services/postService.js';
 
-const postController = express.Router();
-
 
 // 게시글 등록하기
-postController.post('/api/groups/:groupId/posts', async (req, res) => {
+const createPost = async (req, res) => {
   const { groupId } = req.params;
   const postData = req.body;
 
@@ -23,6 +21,8 @@ postController.post('/api/groups/:groupId/posts', async (req, res) => {
       res.status(400).json({ message: "잘못된 요청입니다" });
     }
   }
-});
+};
 
-export default postController;
+export default {
+  createPost,
+}
