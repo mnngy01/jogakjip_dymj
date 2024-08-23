@@ -30,22 +30,22 @@ model Group {
 }
 
 model Post {
-  id          Int @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   groupId     Int
   nickname    String
   title       String
   content     String
-  imageUrl    String
-  location    String
+  imageUrl    String?
+  location    String?
   moment      DateTime
-  isPublic    Boolean @default(true)
+  isPublic    Boolean   @default(true)
   password    String
   createdAt   DateTime  @default(now())
-  likeCount   Int @default(0)
-  commentCount  Int @default(0)
-  tags        String
+  likeCount   Int       @default(0)
+  commentCount  Int     @default(0)
+  tags        String[]
 
-  group       Group   @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  group       Group     @relation(fields: [groupId], references: [id], onDelete: Cascade)
   comments    Comment[] 
 }
 

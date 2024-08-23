@@ -2,7 +2,7 @@
 import express from 'express';
 
 import groupController from './controllers/groupController.js';
-import postController from './controllers/postController.js'
+import postController from './controllers/postController.js';
 
 
 // ***************************************************************
