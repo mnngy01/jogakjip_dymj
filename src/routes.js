@@ -11,7 +11,7 @@ router.get('/api/groups', groupController.getGroups);             // 그룹 목�
 router.put('/api/groups/:groupId', groupController.updateGroup);  // 그룹 수정
 router.delete('/api/groups/:groupId', groupController.deleteGroup); // 그룹 삭제
 router.get('/api/groups/:groupId', groupController.getGroupDetail); // 그룹 상세 정보
-router.get('/api/groups/:groupId/verify-password', groupController.verifyGroupPassword) // 그룹 조회 권한 확인
+router.get('/api/groups/:groupId/verify-password', groupController.verifyGroupPassword); // 그룹 조회 권한 확인
 router.post('/api/groups/:groupId/like', groupController.likeGroup);  // 그룹 공감하기
 router.get('/api/groups/:groupId/is-public', groupController.checkGroupVisibility); // 그룹 공개여부 확인
 

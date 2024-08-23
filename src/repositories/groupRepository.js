@@ -21,7 +21,7 @@ async function save(group) {
 
 // 그룹 목록 조회하기
 async function getGroups(filters) {
-  const { skip, take, sortBy, keyword, isPublic } = filters;
+  const { page, pageSize, sortBy, keyword, isPublic } = filters;
 
   // keyword
   let whereClause = {};
@@ -38,30 +38,29 @@ async function getGroups(filters) {
   }
 
   // sortBy
-  let orderByClause = () => {
-    switch (sortBy) {
-      case "mostPosted":
-        return { postCount : 'desc' };
-        break;
-      case "mostLiked":
-        return { likeCount : 'desc' };
-        break;
-      case "mostBadge":
-        return { badgeCount : 'desc' };
-        break;
-      case "latest":
-      default:
-        return { createdAt : 'desc' };
-        break;
-    }
+  let orderByClause;
+  switch (sortBy) {
+    case "mostPosted":
+      orderByClause = { postCount: 'desc' };
+      break;
+    case "mostLiked":
+      orderByClause = { likeCount : 'desc' };
+      break;
+    case "mostBadge":
+      orderByClause = { badgeCount : 'desc' };
+      break;
+    case "latest":
+    default:
+      orderByClause = { createdAt : 'desc' };
+      break;
   }
 
   const totalItemCount = await prisma.group.count({ where: whereClause });
-  const groups = await prisma.group.fineMany({
+  const groups = await prisma.group.findMany({
     where: whereClause,
     orderBy: orderByClause,
-    skip: skip,
-    take: take
+    skip: (page - 1) * pageSize,
+    take: pageSize
   });
 
   return { groups, totalItemCount };

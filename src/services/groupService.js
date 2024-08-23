@@ -10,11 +10,9 @@ async function create (group) {
 
 // 그룹 목록 조회하기
 async function getGroups({ page, pageSize, sortBy, keyword, isPublic }) {
-  const skip = (page - 1) * pageSize;
-  const take = pageSize;
   const filters = {
-    skip,
-    take,
+    page,
+    pageSize,
     sortBy,
     keyword,
     isPublic: isPublic === undefined ? undefined : isPublic === true

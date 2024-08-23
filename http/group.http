@@ -1,6 +1,16 @@
-POST http://localhost:3000/groups
+POST http://localhost:3000/api/groups
+Content-Type: application/json
+
+{
+	"name": "second",
+	"password": "string",
+	"imageUrl": "string",
+	"isPublic": true,
+	"introduction": "string"
+}
 
 ###
 
-GET http://localhost:3000/groups?page=1&pageSize=10&sortBy=latest&isPublic=1
+GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=latest&keyword=s&isPublic=true
 
+###

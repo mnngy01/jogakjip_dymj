@@ -16,6 +16,8 @@ const createGroup = async (req, res, next) => {
 
 // 그룹 목록 조회하기
 const getGroups = async (req, res, next) => {
+  const { page = 1, pageSize = 10, sortBy = 'latest', keyword = '', isPublic = 'true'} = req.query;
+  
   /**
    * 쿼리 파라미터
    * - page : number (현재 페이지 번호)
@@ -27,11 +29,11 @@ const getGroups = async (req, res, next) => {
   
   try {
       const result = await groupService.getGroups({
-      page: Number(req.query.page),
-      pageSize: Number(req.query.pageSize),
-      sortBy: req.query.sortBy,
-      keyword: req.query.keyword,
-      isPublic: Boolean(req.query.isPublic)
+      page: parseInt(page, 10),
+      pageSize: parseInt(pageSize, 10),
+      sortBy: sortBy,
+      keyword: keyword,
+      isPublic: isPublic === 'true' // 문자열을 boolean으로 변환
     });
 
     res.status(200).json({
@@ -105,7 +107,7 @@ const deleteGroup = async (req, res) => {
 
 
 // 그룹 상세 정보 조회
-const getGroupDatail = async (req, res) => {
+const getGroupDetail = async (req, res) => {
   const { groupId } = req.params;
 
   if (isNaN(groupId)) {
@@ -186,7 +188,7 @@ export default {
   getGroups,
   updateGroup,
   deleteGroup,
-  getGroupDatail,
+  getGroupDetail,
   verifyGroupPassword,
   likeGroup,
   checkGroupVisibility,
