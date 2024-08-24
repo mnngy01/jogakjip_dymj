@@ -83,6 +83,9 @@ async function update(groupId, updateData) {
   return await prisma.group.update({
     where: { id: groupId },
     data: updateData,
+    include: {
+      badges: true,
+    }
   });
 };
 

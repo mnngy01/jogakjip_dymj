@@ -56,7 +56,7 @@ async function update(groupId, updateData) {
     imageUrl: updatedGroup.imageUrl,
     isPublic: updatedGroup.isPublic,
     likeCount: updatedGroup.likeCount,
-    badges: updatedGroup.badges,
+    badges: updatedGroup.badges.map(badge => badge.name),
     postCount: updatedGroup.postCount,
     createdAt: updatedGroup.createdAt,
     introduction: updatedGroup.introduction
