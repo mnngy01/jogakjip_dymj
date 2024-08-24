@@ -1,3 +1,4 @@
+// 그룹 등록하기
 POST http://localhost:3000/api/groups
 Content-Type: application/json
 
@@ -11,10 +12,12 @@ Content-Type: application/json
 
 ###
 
+// 그룹 목록 조회하기
 GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=latest&keyword=s&isPublic=true
 
 ###
 
+// 그룹 수정하기
 PUT http://localhost:3000/api/groups/1
 Content-Type: application/json
 
@@ -25,3 +28,15 @@ Content-Type: application/json
 	"isPublic": true,
 	"introduction": "string2"
 }
+
+###
+
+// 그룹 삭제하기
+DELETE http://localhost:3000/api/groups/2
+Content-Type: application/json
+
+{
+  "password": "string"
+}
+
+###

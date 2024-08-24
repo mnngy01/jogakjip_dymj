@@ -29,12 +29,12 @@ const getGroups = async (req, res, next) => {
   
   try {
       const result = await groupService.getGroups({
-      page: parseInt(page, 10),
-      pageSize: parseInt(pageSize, 10),
-      sortBy: sortBy,
-      keyword: keyword,
-      isPublic: isPublic === 'true' // 문자열을 boolean으로 변환
-    });
+        page: parseInt(page, 10),
+        pageSize: parseInt(pageSize, 10),
+        sortBy: sortBy,
+        keyword: keyword,
+        isPublic: isPublic === 'true' // 문자열을 boolean으로 변환
+      });
 
     res.status(200).json({
       currentPage: result.currentPage,
@@ -101,6 +101,7 @@ const deleteGroup = async (req, res) => {
       res.status(404).json({ message: error.message });
     } else {
       res.status(400).json({ message: "잘못된 요청입니다" });
+      // res.status(400).json({ message: error.message });
     }
   }
 
