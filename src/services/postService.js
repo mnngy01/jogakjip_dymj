@@ -49,7 +49,26 @@ async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) 
 };
 
 
+// 게시글 수정하기
+const updatePost = async (postId, postData, postPassword) => {
+  const existingPost = await postRepository.findPostById(postId);
+
+  // 게시글이 없다면
+  if (!existingPost) {
+    throw { status: 404, message: '존재하지 않습니다' };
+  }
+
+  // 비밀번호가 틀리다면
+  if (existingPost.postPassword !== postPassword) {
+    throw { status: 403, message: '비밀번호가 틀렸습니다' };
+  }
+
+  return await postRepository.updatePost(postId, postData);
+}
+
+
 export default {
   createPost,
   getPosts,
+  updatePost,
 }

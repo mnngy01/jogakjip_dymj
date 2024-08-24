@@ -53,10 +53,32 @@ async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) 
   const totalItemCount = await prisma.post.count({ where: whereClause });
 
   return { posts, totalItemCount };
+};
+
+
+// 게시글 수정 
+async function updatePost(postId, updateDate) {
+  const existingPost = await prisma.post.findUnique({
+    where: { id: postId }
+  });
+
+  // 존재하는 게시글이 없다면 에러코드
+  if (!existingPost) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 업데이트할 데이터
+  const updatedPost = await prisma.post.update({
+    where: { id: postId },
+    data: updateDate
+  });
+
+  return updatedPost; // 업데이트된 데이터 반환
 }
 
 export default {
   createPost,
   getGroupById,
   getPosts,
+  updatePost,
 }

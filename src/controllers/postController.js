@@ -45,7 +45,29 @@ const getPosts = async (req, res) => {
   }
 };
 
+
+// 게시글 수정하기
+const updatePost = async (req, res) => {
+  const { postId } = req.params;
+  const { postPassword } = req.body;
+  const postData = req.body;
+
+  try {
+    const updatedPost = await postService.updatePost(parseInt(postId, 10), postData, postPassword);
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    if (error.status === 404 ) {
+      res.status(404).json({ message: error.message });
+    } else if (error.status === 403) {
+      res.status(403).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: '잘못된 요청입니다' });
+    }
+  }
+};
+
 export default {
   createPost,
   getPosts,
+  updatePost,
 }
