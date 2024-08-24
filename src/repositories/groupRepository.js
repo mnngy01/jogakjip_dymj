@@ -90,7 +90,7 @@ async function update(groupId, updateData) {
 // id로 그룹 삭제하기
 async function deleteGroupById(groupId) {
   await prisma.group.delete({
-    where: { id: group },
+    where: { id: groupId },
   });
 };
 

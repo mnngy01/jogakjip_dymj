@@ -65,8 +65,8 @@ const updateGroup = async (req, res) => {
   const updateData = req.body;
 
   try {
-    const updateGroup = await groupService.update(parseInt(groupId, 10), updateData);
-    return res.status(200).json(updateGroup);
+    const updatedGroup = await groupService.update(parseInt(groupId, 10), updateData);
+    return res.status(200).json(updatedGroup);
   } catch (error) {
     if (error.status === 403) {
       req.status(403).json({ message: "비밀번호가 틀렸습니다" });
@@ -74,6 +74,7 @@ const updateGroup = async (req, res) => {
       req.status(404).json({ message: "존재하지 않습니다" });
     } else {
       res.status(400).json({ message: "잘못된 요청입니다" });
+      // res.status(400).json({ message: error.message });
     }
   }
   
