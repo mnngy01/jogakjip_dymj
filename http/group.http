@@ -43,3 +43,15 @@ Content-Type: application/json
 
 // 그룹 상세 정보 조회
 GET http://localhost:3000/api/groups/1
+
+###
+
+// 그룹 조회 권한 확인 (비밀번호 확인)
+POST http://localhost:3000/api/groups/1/verify-password
+Content-Type: application/json
+
+{
+  "password": "string"
+}
+
+###

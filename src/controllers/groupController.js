@@ -123,8 +123,8 @@ const getGroupDetail = async (req, res) => {
     if (error.status === 404 ) {
       res.status(404).json({ message: error.message });
     } else {
-      // res.status(400).json({ message: "잘못된 요청입니다" });
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: "잘못된 요청입니다" });
+      // res.status(400).json({ message: error.message });
     }
   }
 
@@ -137,7 +137,7 @@ const verifyGroupPassword = async (req, res) => {
   const { password } = req.body;
 
   try {
-    const result = await groupService.verifyGroupPassword(paseInt(groupId, 10), password);
+    const result = await groupService.verifyGroupPassword(parseInt(groupId, 10), password);
     res.status(200).json(result);
   } catch (error) {
     if (error.status === 401) {
@@ -145,6 +145,7 @@ const verifyGroupPassword = async (req, res) => {
     } else if (error.status === 404) {
       res.status(404).json({ message: error.message });
     } else {
+      // res.status(400).json({ message: error.message });
       res.status(400).json({ message: "잘못된 요청입니다" });
     }
   }
