@@ -4,9 +4,21 @@ import prisma from "../config/prisma.js";
 
 
 // 게시글 저장
-async function createPost(postData) {
+async function createPost(groupId, postData) {
   return await prisma.post.create({
-    data: postData,
+    data: {
+      groupId: groupId,
+      nickname: postData.nickname,
+      title: postData.title,
+      content: postData.content,
+      imageUrl: postData.imageUrl,
+      location: postData.location,
+      moment: new Date(postData.moment),
+      isPublic: Boolean(postData.isPublic),
+      password: postData.postPassword,
+      tags: new Array(...postData.tags),
+      createdAt: new Date(),
+    },
   });
 };
 

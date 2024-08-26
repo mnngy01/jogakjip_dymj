@@ -1,8 +1,6 @@
 // postController
 // API 요청 처리
-import express from 'express';
 import postService from '../services/postService.js';
-
 
 // 게시글 등록하기
 const createPost = async (req, res) => {

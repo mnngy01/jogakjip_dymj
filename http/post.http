@@ -1,4 +1,19 @@
-POST http://localhost:3000/groups/1/posts
+// 게시글 등록
+POST http://localhost:3000/api/groups/1/posts
+Content-Type: application/json
+
+{
+  "nickname": "string",
+	"title": "second",
+	"content": "string",
+	"postPassword": "string",
+	"groupPassword": "string",
+	"imageUrl": "string",
+	"tags": [ "string", "string" ],
+	"location": "string",
+	"moment": "2024-02-21",
+	"isPublic": true
+}
 
 ###
 

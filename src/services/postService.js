@@ -16,14 +16,29 @@ async function createPost (groupId, postData) {
     throw { status: 403, message: "그룹 비밀번호가 틀렸습니다" };
   }
 
-  // 게시글 저장
-  const newPost = await postRepository.createPost({
-    ...postData,
-    groupId: groupId,
-    createdAt: new Date(),
-  });
+  const newPost = await postRepository.createPost(groupId, postData);
 
-  return newPost;
+  // moment 날짜 출력 형식 포맷팅 yyyy-mm-dd
+  const y = newPost.moment.getFullYear();
+  const m = ('0' + (newPost.moment.getDate() + 1)).slice(-2);
+  const d = ('0' + newPost.moment.getDate()).slice(-2);
+  const moment = `${y}-${m}-${d}`;
+
+  return {
+    id: newPost.id,
+    groupId: newPost.groupId,
+    nickname: newPost.nickname,
+    title: newPost.title,
+    content: newPost.content,
+    imageUrl: newPost.imageUrl,
+    tags: newPost.tags,
+    location: newPost.location,
+    moment: moment,
+    ispublic: newPost.isPublic,
+    likeCount: newPost.likeCount,
+    commentCount: newPost.commentCount,
+    createdAt: newPost.createdAt,
+  }
 };
 
 
