@@ -55,3 +55,13 @@ Content-Type: application/json
 }
 
 ###
+
+// 그룹 공감하기
+POST http://localhost:3000/api/groups/1/like
+
+###
+
+// 그룹 공개 여부 확인
+GET http://localhost:3000/api/groups/1/is-public
+
+###
