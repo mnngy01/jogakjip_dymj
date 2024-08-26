@@ -13,7 +13,7 @@ async function createPost(groupId, postData) {
       content: postData.content,
       imageUrl: postData.imageUrl,
       location: postData.location,
-      moment: new Date(postData.moment),
+      moment: postData.moment,
       isPublic: Boolean(postData.isPublic),
       password: postData.postPassword,
       tags: new Array(...postData.tags),
@@ -33,16 +33,6 @@ async function getGroupById(groupId) {
 
 // 게시글 목록 조회
 async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) {
-  /**
-  const whereClause = {
-    isPublic: isPublic !== undefined ? isPublic : undefined,
-    OR: keyword ? [
-      { title: { contains: keyword } },
-      { content: { contains: keyword } },
-    ] : undefined,
-  };
-  */
-
   let whereClause = {};
 
   // keyword

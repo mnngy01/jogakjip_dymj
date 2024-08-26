@@ -19,10 +19,12 @@ async function createPost (groupId, postData) {
   const newPost = await postRepository.createPost(groupId, postData);
 
   // moment 날짜 출력 형식 포맷팅 yyyy-mm-dd
+  /**
   const y = newPost.moment.getFullYear();
   const m = ('0' + (newPost.moment.getDate() + 1)).slice(-2);
   const d = ('0' + newPost.moment.getDate()).slice(-2);
   const moment = `${y}-${m}-${d}`;
+  */
 
   return {
     id: newPost.id,
@@ -31,9 +33,9 @@ async function createPost (groupId, postData) {
     title: newPost.title,
     content: newPost.content,
     imageUrl: newPost.imageUrl,
-    tags: newPost.tags,           // tags가 한 줄로 안 나오는 현상
+    tags: newPost.tags,           // tags가 한 줄로 안 나오는 현상 있음
     location: newPost.location,
-    moment: moment,
+    moment: newPost.moment,
     ispublic: newPost.isPublic,
     likeCount: newPost.likeCount,
     commentCount: newPost.commentCount,

@@ -37,7 +37,7 @@ model Post {
   content     String
   imageUrl    String?
   location    String?
-  moment      DateTime
+  moment      String
   isPublic    Boolean   @default(true)
   password    String
   createdAt   DateTime  @default(now())
