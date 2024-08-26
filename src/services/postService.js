@@ -31,7 +31,7 @@ async function createPost (groupId, postData) {
     title: newPost.title,
     content: newPost.content,
     imageUrl: newPost.imageUrl,
-    tags: newPost.tags,
+    tags: newPost.tags,           // tags가 한 줄로 안 나오는 현상
     location: newPost.location,
     moment: moment,
     ispublic: newPost.isPublic,
@@ -44,7 +44,7 @@ async function createPost (groupId, postData) {
 
 // 게시글 목록 조회
 async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) {
-  const { posts, totalItemCount } = await postRepository.findPosts({
+  const { posts, totalItemCount } = await postRepository.getPosts({
     groupId,
     page,
     pageSize,
@@ -82,8 +82,29 @@ const updatePost = async (postId, postData, postPassword) => {
 }
 
 
+// 게시글 삭제하기
+const deletePost = async (postId, postPassword) => {
+  const post = await postRepository.getPostById(postId);
+
+  // 게시글이 존재하지 않는 경우
+  if (!post) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호 검증
+  if (post.password !== postPassword) {
+    throw { status: 403, message: "비밀번호가 틀렸습니다" };
+  }
+
+  // 게시글 삭제
+  await postRepository.deletePostById(postId);
+
+  return { message: "게시글 삭제 성공" };
+}
+
 export default {
   createPost,
   getPosts,
   updatePost,
+  deletePost,
 }

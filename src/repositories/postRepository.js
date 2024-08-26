@@ -31,8 +31,9 @@ async function getGroupById(groupId) {
 };
 
 
-// 그룹 목록 조회
+// 게시글 목록 조회
 async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) {
+  /**
   const whereClause = {
     isPublic: isPublic !== undefined ? isPublic : undefined,
     OR: keyword ? [
@@ -40,6 +41,25 @@ async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) 
       { content: { contains: keyword } },
     ] : undefined,
   };
+  */
+
+  let whereClause = {};
+
+  // keyword
+  if (keyword) {
+    whereClause.title = {
+      contains: keyword,
+      mode: 'insensitive'
+    };
+  };
+
+  // isPublic
+  if (isPublic !== undefined) {
+    whereClause.isPublic = isPublic;
+  }
+
+  // groupId
+  whereClause.groupId = groupId;
 
   const orderByClause = {};
   switch (sortBy) {
@@ -51,14 +71,19 @@ async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) 
       break;
     case 'latest':
       default:
-        orderByClause.createdAt = 'desc';
+        orderByClause.createdAt = 'asc';
         break;
   }
 
   const posts = await prisma.post.findMany({
     where: whereClause,
     orderBy: orderByClause,
-    skip: (pate - 1) * pageSize,
+    include: {
+      groupId: false,
+      password: false,
+      content: false,
+    },
+    skip: (page - 1) * pageSize,
     take: pageSize
   });
 
@@ -86,11 +111,30 @@ async function updatePost(postId, updateDate) {
   });
 
   return updatedPost; // 업데이트된 데이터 반환
-}
+};
+
+
+// postId로 게시글 찾기
+async function getPostById(postId) {
+  return await prisma.post.findUnique({
+    where: { id: parseInt(postId) },
+  });
+};
+
+
+// postId로 게시글 삭제
+async function deletePostById(postId) {
+  await prisma.post.delete({
+    where: { id: postId },
+  });
+};
+
 
 export default {
   createPost,
   getGroupById,
   getPosts,
   updatePost,
+  getPostById,
+  deletePostById,
 }

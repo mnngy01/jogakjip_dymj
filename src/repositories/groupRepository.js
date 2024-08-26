@@ -51,7 +51,7 @@ async function getGroups(filters) {
       break;
     case "latest":
     default:
-      orderByClause = { createdAt : 'desc' };
+      orderByClause = { createdAt : 'asc' };
       break;
   }
 
