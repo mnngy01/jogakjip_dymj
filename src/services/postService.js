@@ -128,7 +128,26 @@ async function getPostDetail(postId) {
     commentCount: post.commentCount,
     createdAt: post.createdAt,
   }
-}
+};
+
+
+// 게시글 조회 권한 확인
+async function verifyPostPassword(postId, password) {
+  const post = await postRepository.getPostById(postId);
+
+  // 게시글이 없으면
+  if (!post) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호 검증
+  if (post.password !== password) {
+    throw { status: 401, message: "비밀번호가 틀렸습니다" };
+  }
+
+  return { message: "비밀번호가 확인되었습니다" };
+};
+
 
 export default {
   createPost,
@@ -136,4 +155,5 @@ export default {
   updatePost,
   deletePost,
   getPostDetail,
+  verifyPostPassword,
 }

@@ -107,11 +107,31 @@ const getPostDetail = async (req, res) => {
     if (error.status === 404) {
       res.status(404).json({ message: error.message });
     } else {
-      // res.status(400).json({ message: "잘못된 요청입니다" });
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: "잘못된 요청입니다" });
+      // res.status(400).json({ message: error.message });
     }
   }
 };
+
+
+// 게시글 조회 권한 확인
+const verifyPostPassword = async (req, res) => {
+  const { postId } = req.params;
+  const { password } = req.body;
+
+  try {
+    const result = await postService.verifyPostPassword(parseInt(postId, 10), password);
+    res.status(200).json(result);
+  } catch (error) {
+    if (error.status === 401) {
+      res.status(401).json({ message: error.message });
+    } else if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청합니다" });
+    }
+  }
+}
 
 
 export default {
@@ -120,4 +140,5 @@ export default {
   updatePost,
   deletePost,
   getPostDetail,
+  verifyPostPassword,
 }

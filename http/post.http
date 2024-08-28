@@ -54,3 +54,11 @@ Content-Type: application/json
 GET http://localhost:3000/api/posts/4
 
 ###
+
+// 게시글 조회 권한 확인
+POST http://localhost:3000/api/posts/4/verify-password
+Content-Type: application/json
+
+{
+  "password": "string"
+}
