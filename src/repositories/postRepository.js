@@ -132,6 +132,17 @@ async function deletePostById(postId) {
 };
 
 
+// 그룹 공감하기 : likeCount 증가
+async function incrementPostLikeCount(postId) {
+  return await prisma.post.update({
+    where: { id: postId },
+    data: {
+      likeCount: { increment: 1, }
+    },
+  });
+};
+
+
 export default {
   createPost,
   getGroupById,
@@ -139,4 +150,5 @@ export default {
   updatePost,
   getPostById,
   deletePostById,
+  incrementPostLikeCount,
 }

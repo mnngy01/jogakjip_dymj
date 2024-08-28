@@ -149,6 +149,21 @@ async function verifyPostPassword(postId, password) {
 };
 
 
+// 게시글 공감하기
+async function likePost(postId) {
+  const post = await postRepository.getPostById(postId);
+
+  // 게시글이 없다면
+  if (!post) {
+    throw { stauts: 404, message: "존재하지 않습니다" };
+  }
+
+  await postRepository.incrementPostLikeCount(postId);
+
+  return { message: "그룹 공감하기 성공" };
+};
+
+
 export default {
   createPost,
   getPosts,
@@ -156,4 +171,5 @@ export default {
   deletePost,
   getPostDetail,
   verifyPostPassword,
+  likePost,
 }

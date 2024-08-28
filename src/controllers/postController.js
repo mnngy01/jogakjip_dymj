@@ -131,7 +131,24 @@ const verifyPostPassword = async (req, res) => {
       res.status(400).json({ message: "잘못된 요청합니다" });
     }
   }
-}
+};
+
+
+// 게시글 공감하기
+const likePost = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const result = await postService.likePost(parseInt(postId, 10));
+    res.status(200).json(result);
+  } catch (error) {
+    if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+};
 
 
 export default {
@@ -141,4 +158,5 @@ export default {
   deletePost,
   getPostDetail,
   verifyPostPassword,
+  likePost,
 }
