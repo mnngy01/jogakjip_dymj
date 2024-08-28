@@ -102,6 +102,32 @@ const deletePost = async (postId, postPassword) => {
   await postRepository.deletePostById(postId);
 
   return { message: "게시글 삭제 성공" };
+};
+
+
+// 게시글 상세 정보 조회
+async function getPostDetail(postId) {
+  const post = await postRepository.getPostById(postId);
+
+  if (!post) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  return {
+    id: post.id,
+    groupId: post.groupId,
+    nickname: post.nickname,
+    title: post.title,
+    content: post.content,
+    imageUrl: post.imageUrl,
+    tags: post.tags,
+    location: post.location,
+    moment: post.moment,
+    isPublic: post.isPublic,
+    likeCount: post.likeCount,
+    commentCount: post.commentCount,
+    createdAt: post.createdAt,
+  }
 }
 
 export default {
@@ -109,4 +135,5 @@ export default {
   getPosts,
   updatePost,
   deletePost,
+  getPostDetail,
 }

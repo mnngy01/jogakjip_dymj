@@ -60,8 +60,8 @@ const updatePost = async (req, res) => {
     } else if (error.status === 403) {
       res.status(403).json({ message: error.message });
     } else {
-      // res.status(400).json({ message: '잘못된 요청입니다' });
-      res.status(400).json({ message: error.message });
+      res.status(400).json({ message: '잘못된 요청입니다' });
+      // res.status(400).json({ message: error.message });
     }
   }
 };
@@ -89,7 +89,29 @@ const deletePost = async (req, res) => {
       res.status(400).json({ message: "잘못된 요청입니다" });
     }
   }
-}
+};
+
+
+// 게시글 상세 정보 조회하기
+const getPostDetail = async (req, res) => {
+  const { postId } = req.params;
+
+  if (isNaN(postId)) {
+    return res.status(400).json({ message: "잘못된 요청입니다" });
+  }
+
+  try {
+    const postDetais = await postService.getPostDetail(parseInt(postId, 10));
+    res.status(200).json(postDetais);
+  } catch (error) {
+    if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      // res.status(400).json({ message: "잘못된 요청입니다" });
+      res.status(400).json({ message: error.message });
+    }
+  }
+};
 
 
 export default {
@@ -97,4 +119,5 @@ export default {
   getPosts,
   updatePost,
   deletePost,
+  getPostDetail,
 }

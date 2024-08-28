@@ -21,6 +21,8 @@ router.post('/api/groups/:groupId/posts', postController.createPost); // 게시�
 router.get('/api/groups/:groupId/posts', postController.getPosts);    // 게시글 목록 조회
 router.put('/api/posts/:postId', postController.updatePost);          // 게시글 수정
 router.delete('/api/posts/:postId', postController.deletePost);       // 게시글 삭제
+router.get('/api/posts/:postId', postController.getPostDetail);       // 게시글 상세 정보 조회
+
 
 
 export default router;
