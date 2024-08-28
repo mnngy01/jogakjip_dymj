@@ -1,5 +1,6 @@
 // postService.js
 // 비즈니스 로직
+import groupRepository from "../repositories/groupRepository.js";
 import postRepository from "../repositories/postRepository.js";
 
 
@@ -164,6 +165,22 @@ async function likePost(postId) {
 };
 
 
+// 게시글 공개 여부 확인
+async function checkPostVisibility(postId) {
+  const post = await postRepository.getPostVisibilityById(postId);
+
+  // 게시글이 없으면
+  if (!post) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  return {
+    id: post.id,
+    isPublic: post.isPublic,
+  }
+};
+
+
 export default {
   createPost,
   getPosts,
@@ -172,4 +189,5 @@ export default {
   getPostDetail,
   verifyPostPassword,
   likePost,
+  checkPostVisibility,
 }

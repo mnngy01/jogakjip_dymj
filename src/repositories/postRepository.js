@@ -143,6 +143,18 @@ async function incrementPostLikeCount(postId) {
 };
 
 
+// 그룹 공개 여부 확인
+async function getPostVisibilityById(postId) {
+  return await prisma.post.findUnique({
+    where: { id: postId },
+    select: {
+      id: true,
+      isPublic: true,
+    },
+  });
+};
+
+
 export default {
   createPost,
   getGroupById,
@@ -151,4 +163,5 @@ export default {
   getPostById,
   deletePostById,
   incrementPostLikeCount,
+  getPostVisibilityById,
 }

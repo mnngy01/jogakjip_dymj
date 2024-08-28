@@ -151,6 +151,23 @@ const likePost = async (req, res) => {
 };
 
 
+// 게시글 공개 여부 확인
+const checkPostVisibility = async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const postVisibility = await postService.checkPostVisibility(parseInt(postId, 10));
+    res.status(200).json(postVisibility);
+  } catch (error) {
+    if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+};
+
+
 export default {
   createPost,
   getPosts,
@@ -159,4 +176,5 @@ export default {
   getPostDetail,
   verifyPostPassword,
   likePost,
+  checkPostVisibility,
 }

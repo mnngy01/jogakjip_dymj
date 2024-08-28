@@ -24,6 +24,7 @@ router.delete('/api/posts/:postId', postController.deletePost);       // 게시�
 router.get('/api/posts/:postId', postController.getPostDetail);       // 게시글 상세 정보 조회
 router.post('/api/posts/:postId/verify-password', postController.verifyPostPassword); // 게시글 조회 권한 확인
 router.post('/api/posts/:postId/like', postController.likePost);      // 게시글 공감
+router.get('/api/posts/:postId/is-public', postController.checkPostVisibility); // 게시글 공개 여부 확인
 
 
 
