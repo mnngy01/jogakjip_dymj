@@ -39,8 +39,8 @@ const getPosts = async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    // res.status(400).json({ message: "잘못된 요청입니다" });
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "잘못된 요청입니다" });
+    // res.status(400).json({ message: error.message });
   }
 };
 
@@ -60,7 +60,8 @@ const updatePost = async (req, res) => {
     } else if (error.status === 403) {
       res.status(403).json({ message: error.message });
     } else {
-      res.status(400).json({ message: '잘못된 요청입니다' });
+      // res.status(400).json({ message: '잘못된 요청입니다' });
+      res.status(400).json({ message: error.message });
     }
   }
 };

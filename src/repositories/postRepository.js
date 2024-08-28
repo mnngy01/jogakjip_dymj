@@ -84,7 +84,7 @@ async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) 
 
 
 // 게시글 수정 
-async function updatePost(postId, updateDate) {
+async function updatePost(postId, updateData) {
   const existingPost = await prisma.post.findUnique({
     where: { id: postId }
   });
@@ -97,7 +97,19 @@ async function updatePost(postId, updateDate) {
   // 업데이트할 데이터
   const updatedPost = await prisma.post.update({
     where: { id: postId },
-    data: updateDate
+    include: {
+      password: false,
+    },
+    data: {
+      nickname: updateData.nickname,
+      title: updateData.title,
+      content: updateData.content,
+      imageUrl: updateData.imageUrl,
+      tags: new Array(...updateData.tags),
+      location: updateData.location,
+      moment: updateData.moment,
+      isPublic: Boolean(updateData.isPublic),
+    }
   });
 
   return updatedPost; // 업데이트된 데이터 반환

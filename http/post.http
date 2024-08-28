@@ -22,6 +22,24 @@ GET http://localhost:3000/api/groups/3/posts?page=1&pageSize=10&sortBy=latest&ke
 
 ###
 
+// 게시글 수정
+PUT http://localhost:3000/api/posts/4
+Content-Type: application/json
+
+{
+  "nickname": "string",
+	"title": "string1",
+	"content": "string",
+	"postPassword": "string",
+	"imageUrl": "string",
+	"tags": [ "string", "string" ],
+	"location": "string",
+	"moment": "2024-02-21",
+	"isPublic": true
+}
+
+###
+
 // 게시글 삭제
 DELETE http://localhost:3000/api/posts/3
 Content-Type: application/json

@@ -68,7 +68,7 @@ async function getPosts({ groupId, page, pageSize, sortBy, keyword, isPublic }) 
 
 // 게시글 수정하기
 const updatePost = async (postId, postData, postPassword) => {
-  const existingPost = await postRepository.findPostById(postId);
+  const existingPost = await postRepository.getPostById(postId);
 
   // 게시글이 없다면
   if (!existingPost) {
@@ -76,7 +76,7 @@ const updatePost = async (postId, postData, postPassword) => {
   }
 
   // 비밀번호가 틀리다면
-  if (existingPost.postPassword !== postPassword) {
+  if (existingPost.password !== postPassword) {
     throw { status: 403, message: '비밀번호가 틀렸습니다' };
   }
 
