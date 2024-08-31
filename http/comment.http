@@ -10,3 +10,7 @@ Content-Type: application/json
 
 ###
 
+// 댓글 목록 조회
+GET http://localhost:3000/api/posts/4/comments
+
+###

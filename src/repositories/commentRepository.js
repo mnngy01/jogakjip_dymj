@@ -15,8 +15,28 @@ const createComment = async (postId, commentData) => {
   });
 
   return newComment;
+};
+
+
+// 댓글 목록 조회
+const getComments = async ({ postId, page, pageSize }) => {  
+  const comments = await prisma.comment.findMany({
+    where: { postId: postId },
+    orderBy: { id : "asc" },
+    include: {
+      postId: false,
+      password: false,
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize
+  });
+
+  const totalItemCount = await prisma.comment.count({ where: { postId: postId } });
+
+  return { comments, totalItemCount };
 }
 
 export default {
   createComment,
+  getComments,
 }

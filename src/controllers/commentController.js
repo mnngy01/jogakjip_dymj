@@ -17,6 +17,26 @@ const createComment = async (req, res) => {
 };
 
 
+// 댓글 목록 조회
+const getComments = async (req, res) => {
+  const { postId } = req.params;
+  const { page = 1, pageSize = 10 } = req.query;
+
+  try {
+    const result = await commentService.getComments({
+      postId: parseInt(postId, 10),
+      page: parseInt(page, 10),
+      pageSize: parseInt(pageSize, 10),
+    });
+
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({ message: "잘못된 요청입니다" });
+  }
+};
+
+
 export default {
   createComment,
+  getComments,
 }
