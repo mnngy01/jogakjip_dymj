@@ -2,6 +2,7 @@ import express from 'express';
 
 import groupController from './controllers/groupController.js';
 import postController from './controllers/postController.js';
+import commentController from './controllers/commentController.js';
 
 const router = express.Router();
 
@@ -26,6 +27,9 @@ router.post('/api/posts/:postId/verify-password', postController.verifyPostPassw
 router.post('/api/posts/:postId/like', postController.likePost);      // 게시글 공감
 router.get('/api/posts/:postId/is-public', postController.checkPostVisibility); // 게시글 공개 여부 확인
 
+
+// comment
+router.post('/api/posts/:postId/comments', commentController.createComment);  // 댓글 등록
 
 
 export default router;
