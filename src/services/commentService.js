@@ -53,8 +53,30 @@ const updateComment = async (commentId, commentData, password) => {
 };
 
 
+// 댓글 삭제
+const deleteComment = async (commentId, password) => {
+  const comment = await commentRepository.getCommentById(commentId);
+
+  // 댓글이 존재하지 않는 경우
+  if (!comment) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호 검증
+  if (comment.password !== password) {
+    throw { status: 403, message: "비밀번호가 틀렸습니다" };
+  }
+
+  // 게시글 삭제
+  await commentRepository.deleteCommentById(commentId);
+
+  return { message: "답글 삭제 성공" };
+};
+
+
 export default {
   createComment,
   getComments,
   updateComment,
+  deleteComment,
 }

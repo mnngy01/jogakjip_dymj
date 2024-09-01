@@ -73,9 +73,18 @@ const updateComment = async (commentId, commentData) => {
 };
 
 
+// commentId로 댓글 삭제
+const deleteCommentById = async (commentId) => {
+  await prisma.comment.delete({
+    where: { id: commentId },
+  });
+};
+
+
 export default {
   createComment,
   getComments,
   getCommentById,
   updateComment,
+  deleteCommentById,
 }

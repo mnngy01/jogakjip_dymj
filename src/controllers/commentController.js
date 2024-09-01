@@ -57,8 +57,34 @@ const updateComment = async (req, res) => {
 };
 
 
+// 댓글 삭제
+const deleteComment = async (req, res) => {
+  const { commentId } = req.params;
+  const { password } = req.body;
+
+  // 비밀번호 미입력한 경우
+  if (!password) {
+    return res.status(400).json({ message: "잘못된 요청입니다" });
+  }
+
+  try {
+    const result = await commentService.deleteComment(parseInt(commentId, 10), password);
+    res.status(200).json(result);
+  } catch (error) {
+    if (error.status === 403) {
+      res.status(403).json({ message: error.message });
+    } else if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+};
+
+
 export default {
   createComment,
   getComments,
   updateComment,
+  deleteComment,
 }
