@@ -31,6 +31,7 @@ router.get('/api/posts/:postId/is-public', postController.checkPostVisibility); 
 // comment
 router.post('/api/posts/:postId/comments', commentController.createComment);  // 댓글 등록
 router.get('/api/posts/:postId/comments', commentController.getComments);     // 댓글 목록 조회
+router.put('/api/comments/:commentId', commentController.updateComment);      // 댓글 수정
 
 
 

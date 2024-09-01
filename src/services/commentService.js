@@ -1,7 +1,6 @@
 // commentService.js
 // 비즈니스 로직
 import commentRepository from "../repositories/commentRepository.js";
-import postRepository from "../repositories/postRepository.js";
 
 
 // 댓글 등록
@@ -13,7 +12,7 @@ const createComment = async (postId, commentData) => {
     nickname: newComment.nickname,
     content: newComment.content,
     createdAt: newComment.createdAt,
-  }
+  };
 };
 
 
@@ -36,7 +35,26 @@ const getComments = async ({ postId, page, pageSize }) => {
 };
 
 
+// 댓글 수정
+const updateComment = async (commentId, commentData, password) => {
+  const existingComment = await commentRepository.getCommentById(commentId);
+
+  // 댓글이 존재하지 않는 경우
+  if (!existingComment) {
+    throw { status: 404, message: "존재하지 않습니다" };
+  }
+
+  // 비밀번호가 틀린 경우
+  if (existingComment.password !== password) {
+    throw { status: 403, message: "비밀번호가 틀렸습니다" };
+  }
+
+  return await commentRepository.updateComment(commentId, commentData);
+};
+
+
 export default {
   createComment,
   getComments,
+  updateComment,
 }

@@ -36,7 +36,29 @@ const getComments = async (req, res) => {
 };
 
 
+// 댓글 수정
+const updateComment = async (req, res) => {
+  const { commentId } = req.params;
+  const { password } = req.body;
+  const commentData = req.body;
+
+  try {
+    const updatedComment = await commentService.updateComment(parseInt(commentId, 10), commentData, password);
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    if (error.status === 404) {
+      res.status(404).json({ message: error.message });
+    } else if (error.status === 403) {
+      res.status(403).json({ message: error.message });
+    } else {
+      res.status(400).json({ message: "잘못된 요청입니다" });
+    }
+  }
+};
+
+
 export default {
   createComment,
   getComments,
+  updateComment,
 }
