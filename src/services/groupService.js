@@ -100,7 +100,7 @@ async function getGroupDetails(groupId) {
     imageUrl: group.imageUrl,
     isPublic: group.isPublic,
     likeCount: group.likeCount,
-    badges: group.badges.map(badge => badge.name),
+    badges: group.badges.map(badge => badge.type),
     postCount: group.postCount,
     createdAt: group.createdAt,
     introduction: group.introduction,

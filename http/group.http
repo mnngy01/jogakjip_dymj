@@ -42,7 +42,7 @@ Content-Type: application/json
 ###
 
 // 그룹 상세 정보 조회
-GET http://localhost:3000/api/groups/1
+GET http://localhost:3000/api/groups/3
 
 ###
 

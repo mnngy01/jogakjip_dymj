@@ -64,8 +64,6 @@ model Comment {
 model Badge {
   id        Int      @id @default(autoincrement())
   type      BadgeType
-  name      String
-  imageUrl  String
   groupId   Int
   createdAt DateTime @default(now())
 

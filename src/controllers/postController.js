@@ -17,6 +17,7 @@ const createPost = async (req, res) => {
       res.status(404).json({ message: error.message });
     } else {
       res.status(400).json({ message: "잘못된 요청입니다" });
+      // res.status(400).json({ message: error.message });
     }
   }
 };

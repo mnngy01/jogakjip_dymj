@@ -155,6 +155,26 @@ async function getPostVisibilityById(postId) {
 };
 
 
+// 7일 연속 게시글 등록 뱃지를 위한 함수
+// 최근 7일간의 게시글 찾기
+async function findPostsForLast7Days(groupId) {
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+
+  return await prisma.post.findMany({
+    where: {
+      groupId: groupId,
+      createdAt: {
+        gte: sevenDaysAgo,  // 최근 7일간
+      },
+    },
+    orderBy: {
+      createdAt: 'asc',
+    },
+  });
+};
+
+
 export default {
   createPost,
   getGroupById,
@@ -164,4 +184,5 @@ export default {
   deletePostById,
   incrementPostLikeCount,
   getPostVisibilityById,
+  findPostsForLast7Days,
 }

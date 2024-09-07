@@ -1,13 +1,14 @@
 // postService.js
 // 비즈니스 로직
-import groupRepository from "../repositories/groupRepository.js";
 import postRepository from "../repositories/postRepository.js";
+import badgeRepository from "../repositories/badgeRepository.js";
 
 
 // 게시글 등록하기
 async function createPost (groupId, postData) {
   const group = await postRepository.getGroupById(groupId);
 
+  // 그룹이 존재하는지 확인
   if (!group) {
     throw { status: 404, message: "존재하지 않습니다" };
   }
@@ -17,15 +18,28 @@ async function createPost (groupId, postData) {
     throw { status: 403, message: "그룹 비밀번호가 틀렸습니다" };
   }
 
+  // 게시글 등록
   const newPost = await postRepository.createPost(groupId, postData);
 
-  // moment 날짜 출력 형식 포맷팅 yyyy-mm-dd
   /**
-  const y = newPost.moment.getFullYear();
-  const m = ('0' + (newPost.moment.getDate() + 1)).slice(-2);
-  const d = ('0' + newPost.moment.getDate()).slice(-2);
-  const moment = `${y}-${m}-${d}`;
-  */
+   * 7일 연속 게시글 등록 시 badge1 부여 로직
+   */
+
+  // 최근 7일간의 게시글을 가져옴
+  const postLast7Days = await postRepository.findPostsForLast7Days(groupId);
+  
+  // 7일 연속 게시글을 작성했는지 확인
+  const sevenDays = new Set(postLast7Days.map(post => post.createdAt.toDateString()));
+
+  if (sevenDays.size >= 7) {
+    // 그룹이 이미 badge1을 가지고 있는지 확인
+    const hasBadge1 = await badgeRepository.groupHasBadge(groupId, 'badge1');
+
+    if (!hasBadge1) {
+      // badge1 부여
+      await badgeRepository.addBadgeToGroup(groupId, 'badge1');
+    }
+  }
 
   return {
     id: newPost.id,
