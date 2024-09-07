@@ -18,6 +18,17 @@ const createComment = async (postId, commentData) => {
 };
 
 
+// 댓글 등록 시 게시글의 commentCount 증가
+async function incrementCommentCount(postId) {
+  return await prisma.post.update({
+    where: { id: postId },
+    data: {
+      commentCount: { increment: 1 },
+    },
+  });
+};
+
+
 // 댓글 목록 조회
 const getComments = async ({ postId, page, pageSize }) => {  
   const comments = await prisma.comment.findMany({
@@ -81,10 +92,23 @@ const deleteCommentById = async (commentId) => {
 };
 
 
+// comment 삭제 시 commentCount 감소
+const decrmentCommentCount = async (postId) => {
+  return await prisma.post.update({
+    where: { id: postId },
+    data: {
+      commentCount: { decrement: 1 },
+    },
+  });
+};
+
+
 export default {
   createComment,
+  incrementCommentCount,
   getComments,
   getCommentById,
   updateComment,
   deleteCommentById,
+  decrmentCommentCount,
 }

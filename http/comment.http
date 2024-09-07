@@ -28,7 +28,7 @@ Content-Type: application/json
 ###
 
 // 댓글 삭제
-DELETE http://localhost:3000/api/comments/3
+DELETE http://localhost:3000/api/comments/5
 Content-Type: application/json
 
 {

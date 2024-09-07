@@ -7,6 +7,9 @@ import commentRepository from "../repositories/commentRepository.js";
 const createComment = async (postId, commentData) => {
   const newComment = await commentRepository.createComment(postId, commentData);
 
+  // 게시글의 commentCount 증가
+  await commentRepository.incrementCommentCount(postId);
+
   return {
     id: newComment.id,
     nickname: newComment.nickname,
@@ -70,6 +73,9 @@ const deleteComment = async (commentId, password) => {
   // 게시글 삭제
   await commentRepository.deleteCommentById(commentId);
 
+  // commentCount 감소
+  await commentRepository.decrmentCommentCount(comment.postId);
+  
   return { message: "답글 삭제 성공" };
 };
 
