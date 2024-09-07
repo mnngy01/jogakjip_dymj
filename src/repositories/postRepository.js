@@ -143,6 +143,17 @@ async function deletePostById(postId) {
 };
 
 
+// 게시글 삭제할 때 그룹 postCount 감소
+async function decrementPostCount(groupId) {
+  return await prisma.group.update({
+    where: { id: groupId },
+    data: {
+      postCount: { decrement: 1 },
+    },
+  });
+};
+
+
 // 그룹 공감하기 : likeCount 증가
 async function incrementPostLikeCount(postId) {
   return await prisma.post.update({
@@ -194,6 +205,7 @@ export default {
   updatePost,
   getPostById,
   deletePostById,
+  decrementPostCount,
   incrementPostLikeCount,
   getPostVisibilityById,
   findPostsForLast7Days,

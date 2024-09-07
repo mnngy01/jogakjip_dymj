@@ -23,7 +23,7 @@ async function createPost (groupId, postData) {
 
   // 그룹의 postCount 증가
   await postRepository.incrementPostCount(groupId);
-  
+
   /**
    * 7일 연속 게시글 등록 시 badge1 부여 로직
    */
@@ -118,6 +118,9 @@ const deletePost = async (postId, postPassword) => {
 
   // 게시글 삭제
   await postRepository.deletePostById(postId);
+
+  // postCount 감소
+  await postRepository.decrementPostCount(post.groupId);
 
   return { message: "게시글 삭제 성공" };
 };
