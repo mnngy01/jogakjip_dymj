@@ -23,6 +23,17 @@ async function createPost(groupId, postData) {
 };
 
 
+// 게시글 등록할 때 group 모델의 postCount 증가 
+async function incrementPostCount(groupId) {
+  return await prisma.group.update({
+    where: { id: groupId },
+    data: {
+      postCount: { increment: 1 },
+    },
+  });
+};
+
+
 // 그룹id로 그룹 찾기
 async function getGroupById(groupId) {
   return await prisma.group.findUnique({
@@ -177,6 +188,7 @@ async function findPostsForLast7Days(groupId) {
 
 export default {
   createPost,
+  incrementPostCount,
   getGroupById,
   getPosts,
   updatePost,

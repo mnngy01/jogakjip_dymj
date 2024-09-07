@@ -21,6 +21,9 @@ async function createPost (groupId, postData) {
   // 게시글 등록
   const newPost = await postRepository.createPost(groupId, postData);
 
+  // 그룹의 postCount 증가
+  await postRepository.incrementPostCount(groupId);
+  
   /**
    * 7일 연속 게시글 등록 시 badge1 부여 로직
    */
