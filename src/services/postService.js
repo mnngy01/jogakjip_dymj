@@ -44,6 +44,21 @@ async function createPost (groupId, postData) {
     }
   }
 
+  console.log(group.postCount);
+
+  /**
+   * 게시글 20개 이상 등록 시 badge2 부여 로직
+   */
+  if (group.postCount >= 19) {
+    // 그룹이 이미 badge2를 가지고 있는지 확인
+    const hasBadge2 = await badgeRepository.groupHasBadge(groupId, 'badge2');
+
+    if (!hasBadge2) {
+      await badgeRepository.addBadgeToGroup(groupId, 'badge2');
+    }
+  }
+  
+
   return {
     id: newPost.id,
     groupId: newPost.groupId,
