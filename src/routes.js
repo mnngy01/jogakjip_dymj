@@ -3,6 +3,8 @@ import express from 'express';
 import groupController from './controllers/groupController.js';
 import postController from './controllers/postController.js';
 import commentController from './controllers/commentController.js';
+import imageController from './controllers/imageController.js';
+// const fileUpload = require("./middlewares/file-upload");
 
 const router = express.Router();
 
@@ -35,5 +37,7 @@ router.put('/api/comments/:commentId', commentController.updateComment);      //
 router.delete('/api/comments/:commentId', commentController.deleteComment);   // 댓글 삭제
 
 
+// image
+router.use('/api/image', imageController);
 
 export default router;
