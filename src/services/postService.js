@@ -2,6 +2,7 @@
 // 비즈니스 로직
 import postRepository from "../repositories/postRepository.js";
 import badgeRepository from "../repositories/badgeRepository.js";
+import groupRepository from "../repositories/groupRepository.js";
 
 
 // 게시글 등록하기
@@ -41,6 +42,7 @@ async function createPost (groupId, postData) {
     if (!hasBadge1) {
       // badge1 부여
       await badgeRepository.addBadgeToGroup(groupId, 'badge1');
+      await groupRepository.incrementBadgeCount(groupId);
     }
   }
 
@@ -53,6 +55,7 @@ async function createPost (groupId, postData) {
 
     if (!hasBadge2) {
       await badgeRepository.addBadgeToGroup(groupId, 'badge2');
+      await groupRepository.incrementBadgeCount(groupId);
     }
   }
   
@@ -202,6 +205,7 @@ async function likePost(postId) {
 
     if (!hasBadge5) {
       await badgeRepository.addBadgeToGroup(newPost.groupId, 'badge5');
+      await groupRepository.incrementBadgeCount(groupId);
     }
   }
 

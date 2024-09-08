@@ -57,7 +57,7 @@ Content-Type: application/json
 ###
 
 // 그룹 공감하기
-POST http://localhost:3000/api/groups/3/like
+POST http://localhost:3000/api/groups/1/like
 
 ###
 

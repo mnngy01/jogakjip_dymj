@@ -148,6 +148,7 @@ async function likeGroup(groupId) {
 
     if (!hasBadge4) {
       await badgeRepository.addBadgeToGroup(groupId, 'badge4');
+      await groupRepository.incrementBadgeCount(groupId);
     }
   }
   

@@ -120,6 +120,18 @@ async function getGroupVisibilityById(groupId) {
   });
 };
 
+
+// 뱃지 개수 증가 badgeCount
+async function incrementBadgeCount(groupId) {
+  return await prisma.group.update({
+    where: { id: groupId },
+    data: {
+      badgeCount: { increment: 1 },
+    },
+  });
+};
+
+
 export default {
   save,
   getGroups,
@@ -128,4 +140,5 @@ export default {
   deleteGroupById,
   incrementGroupLikeCount,
   getGroupVisibilityById,
+  incrementBadgeCount,
 }
