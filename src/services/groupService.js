@@ -1,6 +1,8 @@
 // groupService.js
 // 비즈니스 로직
 import groupRepository from "../repositories/groupRepository.js";
+import badgeRepository
+ from "../repositories/badgeRepository.js";
 
 // 그룹 등록하기
 async function create (group) {
@@ -136,7 +138,19 @@ async function likeGroup(groupId) {
     throw { status: 404, message: "존재하지 않습니다" };
   }
 
-  await groupRepository.incrementGroupLikeCount(groupId);
+  const newGroup = await groupRepository.incrementGroupLikeCount(groupId);
+
+  /*
+   *  그룹 공감 1만 개 달성 시 badge4 부여 
+   */
+  if (newGroup.likeCount >= 10000) {
+    const hasBadge4 = await badgeRepository.groupHasBadge(groupId, 'badge4');
+
+    if (!hasBadge4) {
+      await badgeRepository.addBadgeToGroup(groupId, 'badge4');
+    }
+  }
+  
 
   return { message: "그룹 공감하기 성공" };
 };
