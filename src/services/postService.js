@@ -192,7 +192,18 @@ async function likePost(postId) {
     throw { stauts: 404, message: "존재하지 않습니다" };
   }
 
-  await postRepository.incrementPostLikeCount(postId);
+  const newPost = await postRepository.incrementPostLikeCount(postId);
+
+  /*
+   *  게시글(추억) 공감 1만 개 달성 시 badge5 부여
+   */
+  if (newPost.likeCount >= 10000) {
+    const hasBadge5 = await badgeRepository.groupHasBadge(newPost.groupId, 'badge5');
+
+    if (!hasBadge5) {
+      await badgeRepository.addBadgeToGroup(newPost.groupId, 'badge5');
+    }
+  }
 
   return { message: "그룹 공감하기 성공" };
 };
