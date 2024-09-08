@@ -90,11 +90,31 @@ async function deleteGroup(groupId, password) {
 
 // 그룹 상세 정보 조회하기
 async function getGroupDetails(groupId) {
-  const group = await groupRepository.getGroupById(groupId);
+  const nowGroup = await groupRepository.getGroupById(groupId);
 
-  if (!group) {
+  if (!nowGroup) {
     throw { status: 404, message: "존재하지 않습니다" };
   }
+
+  /*
+   *  그룹 생성 후 1년 달성 시 badge3 부여 
+   */
+  const nowDate = new Date();   // 현재 시간
+  let dateGap = nowDate.getTime() - nowGroup.createdAt.getTime();  // 그룹 생성 시간 차이
+  dateGap = Math.abs(dateGap / (1000 * 60 * 60 * 24));  // 차이 일수
+  console.log(dateGap);
+  
+  if (dateGap >= 365) {
+    const hasBadge3 = await badgeRepository.groupHasBadge(groupId, 'badge3');
+
+    if (!hasBadge3) {
+      await badgeRepository.addBadgeToGroup(groupId, 'badge3');
+      await groupRepository.incrementBadgeCount(groupId);
+    }
+  }
+
+  const group = await groupRepository.getGroupById(groupId);
+
 
   return {
     id: group.id,
