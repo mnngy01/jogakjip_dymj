@@ -1,8 +1,7 @@
 // groupService.js
 // 비즈니스 로직
 import groupRepository from "../repositories/groupRepository.js";
-import badgeRepository
- from "../repositories/badgeRepository.js";
+import badgeRepository from "../repositories/badgeRepository.js";
 
 // 그룹 등록하기
 async function create (group) {
