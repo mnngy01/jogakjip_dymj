@@ -13,7 +13,7 @@ Content-Type: application/json
 ###
 
 // 그룹 목록 조회하기
-GET http://localhost:3000/api/groups?page=1&pageSize=10&sortBy=latest&keyword=s&isPublic=true
+GET http://localhost:3000/groups?page=1&pageSize=10&sortBy=latest&keyword=s&isPublic=true
 
 ###
 
