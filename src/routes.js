@@ -38,6 +38,7 @@ router.delete('/comments/:commentId', commentController.deleteComment);   // 댓
 
 
 // image
-router.use('/image', imageController);
+router.use('/image', imageController.upload.single('image'), imageController.imageUpload);
+
 
 export default router;
