@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // 전송된 파일을 담기 위한 폴더
-app.use('/uploads', express.static(path.join('uploads', "attachments")));
+app.use('/uploads', express.static(path.join('uploads')));
 
 app.use(routes);
 
